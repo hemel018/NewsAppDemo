@@ -82,7 +82,7 @@ public class OneFragment extends Fragment implements DownloadResultReceiver.Rece
         Intent intent = new Intent(Intent.ACTION_SYNC, null, this.getActivity(), NewsUpdateService.class);
 
         /* Send optional extras to Download IntentService */
-        String requestUrl = "http://197.157.246.110:3000/api/getupdate/" + Long.toString(System.currentTimeMillis() - 1000 *5 * 60);
+        String requestUrl = "http://197.157.246.110:3000/api/getupdate/" + Long.toString(System.currentTimeMillis() - 1000 *5000 * 60);
         intent.putExtra("url", requestUrl);
         intent.putExtra("receiver", mReceiver);
         intent.putExtra("requestId", 101);

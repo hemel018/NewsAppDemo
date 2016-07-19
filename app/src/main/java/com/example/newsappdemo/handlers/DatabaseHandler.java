@@ -28,7 +28,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String TABLE_NEWS = "news";
 
     private static final String KEY_ID = "id";
-    private static final String KEY_SERVER_ID = "_id";
+    private static final String KEY_SERVER_ID = "sid";
     private static final String KEY_CATEGORY_ID = "category_id";
     private static final String KEY_IMAGE_URL = "image_url";
     private static final String KEY_TITLE = "title";
@@ -44,7 +44,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db)
     {
         String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_NEWS + "("
-                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_SERVER_ID + " TEXT, " + KEY_CATEGORY_ID + " INTEGER," + KEY_IMAGE_URL + " TEXT,"
+                + KEY_ID + " INTEGER PRIMARY KEY, " + KEY_SERVER_ID + " TEXT, " + KEY_CATEGORY_ID + " INTEGER," + KEY_IMAGE_URL + " TEXT,"
                 + KEY_TITLE + " TEXT," + KEY_NEWS_DETAILS + " TEXT" + ")";
         db.execSQL(CREATE_CONTACTS_TABLE);
     }
@@ -72,13 +72,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                String id = cursor.getString(0);
-                int category = Integer.parseInt(cursor.getString(1));
-                String titleImageUrl = cursor.getString(2);
-                String title = cursor.getString(3);
-                String url = cursor.getString(4);
+                String sid = cursor.getString(1);
+                int category = Integer.parseInt(cursor.getString(2));
+                String titleImageUrl = cursor.getString(3);
+                String title = cursor.getString(4);
+                String url = cursor.getString(5);
 
-                NewsFeed newsFeed = new NewsFeed(id, category, titleImageUrl, title, url);
+                NewsFeed newsFeed = new NewsFeed(sid, category, titleImageUrl, title, url);
                 newsFeedList.add(newsFeed);
                 count++;
             } while (cursor.moveToNext());
@@ -92,19 +92,24 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        String query = "insert or replace into news (id, category_id, image_url, title, url) values ('" + newsFeed.getId() + "', " + newsFeed.getCategoryId() + ", '" + newsFeed.getTitleImage() + "', '" + newsFeed.getTitle() + "', '');";
+        try
+        {
+            db.delete(TABLE_NEWS, KEY_SERVER_ID+" = ?", new String[] { newsFeed.getSid() });
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
 
-        db.execSQL(query);
-
-//        ContentValues values = new ContentValues();
-//        values.put(KEY_ID, newsFeed.getId());
-//        values.put(KEY_CATEGORY_ID, newsFeed.getCategoryId());
-//        values.put(KEY_IMAGE_URL, newsFeed.getTitleImage());
-//        values.put(KEY_TITLE, newsFeed.getTitle());
-//        values.put(KEY_NEWS_DETAILS, "");
-//
-//        // Inserting Row
-//        db.upinsert(TABLE_NEWS, null, values);
+        ContentValues values = new ContentValues();
+        //values.put(KEY_ID, newsFeed.getId());
+        values.put(KEY_SERVER_ID, newsFeed.getSid());
+        values.put(KEY_CATEGORY_ID, newsFeed.getCategoryId());
+        values.put(KEY_IMAGE_URL, newsFeed.getTitleImage());
+        values.put(KEY_TITLE, newsFeed.getTitle());
+        values.put(KEY_NEWS_DETAILS, "");
+        // Inserting Row
+        db.insert(TABLE_NEWS, null, values);
         db.close(); // Closing database connection
     }
 
