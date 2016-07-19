@@ -2,67 +2,11 @@
 <items version="2" >
 
     <item
-        jar="/Users/rana/work/NewsAppDemo/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.3.0/jars/libs/internal_impl-23.3.0.jar"
-        jumboMode="true"
-        revision="23.0.3"
-        sha1="4da5a4d697d32497c6f85567a5112e62fdfd0676">
-        <dex dex="/Users/rana/work/NewsAppDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-23.3.0_b3d14b79ca362b60123ef6aee10083d1aeb37547/classes.dex" />
-    </item>
-    <item
         jar="/Users/rana/work/NewsAppDemo/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         revision="23.0.3"
-        sha1="70ed77945ba4b4fe688daa1f02a40ca2c38eb93e">
+        sha1="379819d7dbc44d351b5d28464995a679e5b54201">
         <dex dex="/Users/rana/work/NewsAppDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_c7cdf1f2d3a8bd469a584d69fda66702aa37fbcb/classes.dex" />
-    </item>
-    <item
-        jar="/Users/rana/work/NewsAppDemo/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.3.0/jars/classes.jar"
-        jumboMode="true"
-        revision="23.0.3"
-        sha1="debf30ce0a7560396b6235edef77e447006454c2">
-        <dex dex="/Users/rana/work/NewsAppDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-recyclerview-v7-23.3.0_8647ab3a66dfd985bfc808a4ee1ffcc8ed5d199a/classes.dex" />
-    </item>
-    <item
-        jar="/Users/rana/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.3.0/support-annotations-23.3.0.jar"
-        jumboMode="true"
-        revision="23.0.3"
-        sha1="db7791d75a07fef9844d06236c1c59ba7bf6997c">
-        <dex dex="/Users/rana/work/NewsAppDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-23.3.0_f225bfad4c8dec67e7d3586c5c0dbce0f21569cd/classes.dex" />
-    </item>
-    <item
-        jar="/Users/rana/work/NewsAppDemo/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/jars/classes.jar"
-        jumboMode="true"
-        revision="23.0.3"
-        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
-        <dex dex="/Users/rana/work/NewsAppDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-23.0.1_bc9d3f20ec22747fbd4d4b40874c367bb1a79609/classes.dex" />
-    </item>
-    <item
-        jar="/Users/rana/work/NewsAppDemo/app/build/intermediates/exploded-aar/com.android.support/customtabs/23.1.0/jars/classes.jar"
-        jumboMode="true"
-        revision="23.0.3"
-        sha1="b6a172e84d9dcc34b5133316b070e6f31adcfb68">
-        <dex dex="/Users/rana/work/NewsAppDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-customtabs-23.1.0_b9a445f4955a24c0ad1945541921cdd2a766fac6/classes.dex" />
-    </item>
-    <item
-        jar="/Users/rana/work/NewsAppDemo/app/build/intermediates/exploded-aar/com.android.support/design/23.0.1/jars/classes.jar"
-        jumboMode="true"
-        revision="23.0.3"
-        sha1="e5c61a3169221a89654ffcaaed47bba51cf071ad">
-        <dex dex="/Users/rana/work/NewsAppDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-design-23.0.1_5515750e45ee6383ea891ec1cb009950cbb723a8/classes.dex" />
-    </item>
-    <item
-        jar="/Users/rana/work/NewsAppDemo/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.3.0/jars/classes.jar"
-        jumboMode="true"
-        revision="23.0.3"
-        sha1="8a034dd16c0dfd75fe86c52c2cd581592acc684a">
-        <dex dex="/Users/rana/work/NewsAppDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-23.3.0_81d6f77c6e66b5a0d8a92567d921b94f9093aeea/classes.dex" />
-    </item>
-    <item
-        jar="/Users/rana/work/NewsAppDemo/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
-        jumboMode="true"
-        revision="23.0.3"
-        sha1="42074f909ac5d17844baf8e3826687217fc9a0ed">
-        <dex dex="/Users/rana/work/NewsAppDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_e04c18a4dcb44c5daafc21c541f7e09e7aaf48de/classes.dex" />
     </item>
 
 </items>
