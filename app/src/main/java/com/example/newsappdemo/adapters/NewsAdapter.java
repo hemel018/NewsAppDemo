@@ -1,6 +1,5 @@
 package com.example.newsappdemo.adapters;
 
-import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +15,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     private NewsFeed[] mDataset;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView mTextView;
+        public TextView mTextViewTitle;
+        public TextView mTextViewAuthor;
         public ImageView mImageView;
 
         public ViewHolder(View view) {
             super(view);
-            mTextView = (TextView)view.findViewById(R.id.title);
+            mTextViewTitle = (TextView)view.findViewById(R.id.title);
+            mTextViewAuthor = (TextView)view.findViewById(R.id.author);
             mImageView = (ImageView) view.findViewById(R.id.image_title);
         }
     }
@@ -42,7 +43,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.mTextView.setText(mDataset[position].getTitle());
+        holder.mTextViewTitle.setText(mDataset[position].getTitle());
+        holder.mTextViewAuthor.setText("Published by--");
         new ImageDownloaderTask(holder.mImageView).execute(mDataset[position].getTitleImage());
     }
 
