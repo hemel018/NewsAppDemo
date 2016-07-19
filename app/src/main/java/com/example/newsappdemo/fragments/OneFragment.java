@@ -60,8 +60,6 @@ public class OneFragment extends Fragment implements DownloadResultReceiver.Rece
 
         startServiceToUpdateNews();
 
-
-
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
@@ -72,8 +70,6 @@ public class OneFragment extends Fragment implements DownloadResultReceiver.Rece
 
         return v;
     }
-
-
 
     private void startServiceToUpdateNews() {
 
