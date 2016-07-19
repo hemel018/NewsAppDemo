@@ -17,11 +17,15 @@ import com.example.newsappdemo.MainActivity;
 import com.example.newsappdemo.R;
 import com.example.newsappdemo.adapters.NewsAdapter;
 import com.example.newsappdemo.entity.NewsFeed;
+import com.example.newsappdemo.handlers.DatabaseHandler;
 import com.example.newsappdemo.service.DownloadResultReceiver;
 import com.example.newsappdemo.service.NewsUpdateService;
 import com.example.newsappdemo.utils.CustomBrowser;
 import com.example.newsappdemo.utils.DividerItemDecoration;
 import com.example.newsappdemo.utils.RecyclerItemClickListener;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class OneFragment extends Fragment implements DownloadResultReceiver.Receiver {
 
@@ -29,6 +33,7 @@ public class OneFragment extends Fragment implements DownloadResultReceiver.Rece
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private NewsFeed[] mDataset;
+    private DatabaseHandler mDatabaseHandler;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -48,7 +53,10 @@ public class OneFragment extends Fragment implements DownloadResultReceiver.Rece
             }
         }));
 
-        mDataset = new NewsFeed[]{};
+
+        mDatabaseHandler = new DatabaseHandler(getActivity());
+
+        mDataset = mDatabaseHandler.getAllNewsByCategory(1);
 
         startServiceToUpdateNews();
 
@@ -74,7 +82,8 @@ public class OneFragment extends Fragment implements DownloadResultReceiver.Rece
         Intent intent = new Intent(Intent.ACTION_SYNC, null, this.getActivity(), NewsUpdateService.class);
 
         /* Send optional extras to Download IntentService */
-        intent.putExtra("url", "http://197.157.246.110:3000/api/getupdate/343242342343");
+        String requestUrl = "http://197.157.246.110:3000/api/getupdate/" + Long.toString(System.currentTimeMillis() - 1000 *5 * 60);
+        intent.putExtra("url", requestUrl);
         intent.putExtra("receiver", mReceiver);
         intent.putExtra("requestId", 101);
 
@@ -105,8 +114,13 @@ public class OneFragment extends Fragment implements DownloadResultReceiver.Rece
                 NewsFeed[] results = (NewsFeed[])resultData.getParcelableArray("result");
 
                 /* Update ListView with result */
-                mDataset = results;
-                mRecyclerView.setAdapter(new NewsAdapter(mDataset));
+
+                for(NewsFeed news : results)
+                {
+                    mDatabaseHandler.addNewsFeed(news);
+                }
+
+                mRecyclerView.setAdapter(new NewsAdapter(mDatabaseHandler.getAllNewsByCategory(1)));
 
                 break;
             case NewsUpdateService.STATUS_ERROR:

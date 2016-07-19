@@ -8,13 +8,15 @@ import android.os.Parcelable;
  */
 public class NewsFeed implements Parcelable
 {
+    private String mId;
     private int mCategoryId;
     private String mAritcleImage;
     private String mTitle;
     private String mArticleDetails;
 
-    public NewsFeed(int category, String articleImage, String title, String articleDetails)
+    public NewsFeed(String id, int category, String articleImage, String title, String articleDetails)
     {
+        this.mId = id;
         this.mCategoryId = category;
         this.mAritcleImage = articleImage;
         this.mTitle = title;
@@ -68,5 +70,9 @@ public class NewsFeed implements Parcelable
 
     public String getArticleDetails() {
         return mArticleDetails;
+    }
+
+    public String getId() {
+        return mId;
     }
 }

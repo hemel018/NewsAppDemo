@@ -127,7 +127,7 @@ public class NewsUpdateService extends IntentService {
                 JSONObject news = newsArray.optJSONObject(i);
 
 
-                NewsFeed newsFeed = new NewsFeed(news.optInt("category"), news.optString("articleimage"), news.optString("title"), news.optString("articledetails"));
+                NewsFeed newsFeed = new NewsFeed(news.optString("_id"), news.optInt("category"), news.optString("articleimage"), news.optString("title"), news.optString("articledetails"));
 
                 newsList[i] = newsFeed;
             }
