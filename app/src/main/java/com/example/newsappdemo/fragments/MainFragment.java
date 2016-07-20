@@ -15,11 +15,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 import android.content.SharedPreferences;
 import android.content.Context;
-import android.content.BroadcastReceiver;
 
-import android.util.Log;
 import android.app.PendingIntent;
-import android.app.*;
+import android.app.AlarmManager;
 
 import com.example.newsappdemo.R;
 import com.example.newsappdemo.adapters.NewsAdapter;
@@ -31,6 +29,8 @@ import com.example.newsappdemo.service.NewsUpdateService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  * Created by rana on 7/18/16.
@@ -40,6 +40,8 @@ public class MainFragment extends Fragment implements DownloadResultReceiver.Rec
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private DatabaseHandler mDatabaseHandler;
+    private GregorianCalendar calendar;
+    private PendingIntent pendingIntent;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -56,8 +58,7 @@ public class MainFragment extends Fragment implements DownloadResultReceiver.Rec
         tabLayout.setupWithViewPager(viewPager);
 
         startServiceToUpdateNews();
-        setupAlarmManager();
-        Log.d("AlarmReceiver", "Called context.startService from AlarmReceiver.onReceive");
+
         //tabLayout = (TabLayout) view.findViewById(R.id.tabs);
         //tabLayout.setupWithViewPager(viewPager);
 
@@ -82,16 +83,6 @@ public class MainFragment extends Fragment implements DownloadResultReceiver.Rec
         viewPager.setAdapter(adapter);
     }
 
-    private void setupAlarmManager(){
-
-        Intent myIntent = new Intent(getActivity(), MyStartServiceReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(),  0, myIntent, 0);
-
-        AlarmManager alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
-        long frequency= 6 * 1000; // in ms
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+5000, frequency, pendingIntent);
-        Log.d("AlarmReceiver", "Called context.startService from AlarmReceiver.onReceive");
-    }
     private void startServiceToUpdateNews() {
 
         DownloadResultReceiver mReceiver = new DownloadResultReceiver(new Handler());
@@ -104,7 +95,17 @@ public class MainFragment extends Fragment implements DownloadResultReceiver.Rec
         intent.putExtra("receiver", mReceiver);
         intent.putExtra("requestId", 101);
 
-        getActivity().startService(intent);
+        AlarmManager alarmManager;
+        calendar = (GregorianCalendar) Calendar.getInstance();
+
+        pendingIntent = PendingIntent.getService(this.getActivity(), 0,
+                intent, 0);
+
+        alarmManager = (AlarmManager) this.getActivity().getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis()+1000,
+                60*1000 , pendingIntent);
+
+        //getActivity().startService(intent);
     }
 
     private void updateLastSyncedTime(){
@@ -161,15 +162,6 @@ public class MainFragment extends Fragment implements DownloadResultReceiver.Rec
                 String error = resultData.getString(Intent.EXTRA_TEXT);
                 Toast.makeText(this.getActivity(), error, Toast.LENGTH_LONG).show();
                 break;
-        }
-    }
-
-    class MyStartServiceReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            //Intent dailyUpdater = new Intent(context, MyService.class);
-            //context.startService(dailyUpdater);
-            Log.d("AlarmReceiver", "Called context.startService from AlarmReceiver.onReceive");
         }
     }
 

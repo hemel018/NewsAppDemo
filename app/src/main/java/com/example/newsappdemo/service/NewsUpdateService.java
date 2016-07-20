@@ -43,7 +43,7 @@ public class NewsUpdateService extends IntentService {
 
         final ResultReceiver receiver = intent.getParcelableExtra("receiver");
         String url = intent.getStringExtra("url");
-
+        Log.d(TAG, "Service requesting " + url);
         Bundle bundle = new Bundle();
 
         if (!TextUtils.isEmpty(url)) {
@@ -55,6 +55,7 @@ public class NewsUpdateService extends IntentService {
 
                 /* Sending result back to activity */
                 if (null != results && results.length > 0) {
+                    Log.d(TAG, "Service ok "+results.length );
                     bundle.putParcelableArray("result", results);
                     receiver.send(STATUS_FINISHED, bundle);
                 }
@@ -63,6 +64,7 @@ public class NewsUpdateService extends IntentService {
                 /* Sending error message back to activity */
                 bundle.putString(Intent.EXTRA_TEXT, e.toString());
                 receiver.send(STATUS_ERROR, bundle);
+                Log.d(TAG, "Service ERROR ");
             }
         }
         Log.d(TAG, "Service Stopping!");

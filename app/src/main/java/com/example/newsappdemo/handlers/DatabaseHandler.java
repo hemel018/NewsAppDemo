@@ -64,7 +64,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     {
         List<NewsFeed> newsFeedList = new ArrayList<NewsFeed>();
         // Select All Query
-        String selectQuery = "SELECT  * FROM " + TABLE_NEWS + " WHERE " + KEY_CATEGORY_ID + "=" + categoryId;
+        String selectQuery = "SELECT  * FROM " + TABLE_NEWS + " WHERE " + KEY_CATEGORY_ID + "=" + categoryId +" ORDER BY "+ KEY_ID+ " ASC" ;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
