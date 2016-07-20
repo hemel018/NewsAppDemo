@@ -24,6 +24,8 @@
         <service
             android:name=".service.NewsUpdateService"
             android:exported="false" />
+
+        <receiver android:name=".fragments.MainFragment$AlarmReceiver"></receiver>
     </application>
 
 </manifest>

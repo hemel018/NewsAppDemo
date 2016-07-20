@@ -1,12 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" >
-
-    <item
-        jar="/Users/rana/work/NewsAppDemo/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        revision="23.0.3"
-        sha1="379819d7dbc44d351b5d28464995a679e5b54201">
-        <dex dex="/Users/rana/work/NewsAppDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_c7cdf1f2d3a8bd469a584d69fda66702aa37fbcb/classes.dex" />
-    </item>
-
-</items>
+<items version="2" />
