@@ -90,7 +90,7 @@ public class MainFragment extends Fragment implements DownloadResultReceiver.Rec
         Intent intent = new Intent(Intent.ACTION_SYNC, null, this.getActivity(), NewsUpdateService.class);
 
         /* Send optional extras to Download IntentService */
-        String requestUrl = "http://197.157.246.110:3000/api/getupdate/" + Long.toString( this.readLastSyncedTime() );
+        String requestUrl = "http://197.157.246.110:3000/api/getupdate/";
         intent.putExtra("url", requestUrl);
         intent.putExtra("receiver", mReceiver);
         intent.putExtra("requestId", 101);
@@ -108,20 +108,7 @@ public class MainFragment extends Fragment implements DownloadResultReceiver.Rec
         //getActivity().startService(intent);
     }
 
-    private void updateLastSyncedTime(){
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        long defaultValue = System.currentTimeMillis() - 1000 * 2 * 60;
-        editor.putLong("lastsyncedtime", defaultValue);
-        editor.commit();
-    }
 
-    private long readLastSyncedTime(){
-
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        long defaultValue = System.currentTimeMillis() - 1000 * 60*24 * 60;
-        return sharedPref.getLong("lastsyncedtime", defaultValue);
-    }
 
     @Override
     public void onReceiveResult(int resultCode, Bundle resultData) {
@@ -155,7 +142,7 @@ public class MainFragment extends Fragment implements DownloadResultReceiver.Rec
                 }
 
                 //mRecyclerView.setAdapter(new NewsAdapter(mDatabaseHandler.getAllNewsByCategory(1)));
-                this.updateLastSyncedTime();
+
                 break;
             case NewsUpdateService.STATUS_ERROR:
                 /* Handle the error */

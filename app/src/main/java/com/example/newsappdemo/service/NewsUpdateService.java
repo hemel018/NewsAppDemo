@@ -1,11 +1,15 @@
 package com.example.newsappdemo.service;
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.os.ResultReceiver;
 import android.text.TextUtils;
 import android.util.Log;
+
+import android.preference.PreferenceManager;
 
 import com.example.newsappdemo.entity.NewsFeed;
 
@@ -42,7 +46,7 @@ public class NewsUpdateService extends IntentService {
         Log.d(TAG, "Service Started!");
 
         final ResultReceiver receiver = intent.getParcelableExtra("receiver");
-        String url = intent.getStringExtra("url");
+        String url = intent.getStringExtra("url") +  Long.toString( this.readLastSyncedTime() );
         Log.d(TAG, "Service requesting " + url);
         Bundle bundle = new Bundle();
 
@@ -52,6 +56,8 @@ public class NewsUpdateService extends IntentService {
 
             try {
                 NewsFeed[] results = downloadData(url);
+
+                this.updateLastSyncedTime();
 
                 /* Sending result back to activity */
                 if (null != results && results.length > 0) {
@@ -69,6 +75,21 @@ public class NewsUpdateService extends IntentService {
         }
         Log.d(TAG, "Service Stopping!");
         this.stopSelf();
+    }
+
+    private void updateLastSyncedTime(){
+        SharedPreferences sharedPref =  PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        long defaultValue = System.currentTimeMillis() - 1000 * 2 * 60;
+        editor.putLong("lastsyncedtime", defaultValue);
+        editor.commit();
+    }
+
+    private long readLastSyncedTime(){
+
+        SharedPreferences sharedPref =  PreferenceManager.getDefaultSharedPreferences(this);
+        long defaultValue = System.currentTimeMillis() - 1000 * 60*24 * 60;
+        return sharedPref.getLong("lastsyncedtime", defaultValue);
     }
 
     private NewsFeed[] downloadData(String requestUrl) throws IOException, DownloadException {
