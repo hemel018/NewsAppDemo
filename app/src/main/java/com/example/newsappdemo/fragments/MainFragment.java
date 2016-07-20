@@ -13,6 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+import android.content.SharedPreferences;
+import android.content.Context;
+import android.content.BroadcastReceiver;
+
+import android.util.Log;
+import android.app.PendingIntent;
+import android.app.*;
 
 import com.example.newsappdemo.R;
 import com.example.newsappdemo.adapters.NewsAdapter;
@@ -49,9 +56,8 @@ public class MainFragment extends Fragment implements DownloadResultReceiver.Rec
         tabLayout.setupWithViewPager(viewPager);
 
         startServiceToUpdateNews();
-
-
-
+        setupAlarmManager();
+        Log.d("AlarmReceiver", "Called context.startService from AlarmReceiver.onReceive");
         //tabLayout = (TabLayout) view.findViewById(R.id.tabs);
         //tabLayout.setupWithViewPager(viewPager);
 
@@ -76,6 +82,16 @@ public class MainFragment extends Fragment implements DownloadResultReceiver.Rec
         viewPager.setAdapter(adapter);
     }
 
+    private void setupAlarmManager(){
+
+        Intent myIntent = new Intent(getActivity(), MyStartServiceReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(),  0, myIntent, 0);
+
+        AlarmManager alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+        long frequency= 6 * 1000; // in ms
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+5000, frequency, pendingIntent);
+        Log.d("AlarmReceiver", "Called context.startService from AlarmReceiver.onReceive");
+    }
     private void startServiceToUpdateNews() {
 
         DownloadResultReceiver mReceiver = new DownloadResultReceiver(new Handler());
@@ -83,12 +99,27 @@ public class MainFragment extends Fragment implements DownloadResultReceiver.Rec
         Intent intent = new Intent(Intent.ACTION_SYNC, null, this.getActivity(), NewsUpdateService.class);
 
         /* Send optional extras to Download IntentService */
-        String requestUrl = "http://197.157.246.110:3000/api/getupdate/" + Long.toString(System.currentTimeMillis() - 1000 *5000 * 60);
+        String requestUrl = "http://197.157.246.110:3000/api/getupdate/" + Long.toString( this.readLastSyncedTime() );
         intent.putExtra("url", requestUrl);
         intent.putExtra("receiver", mReceiver);
         intent.putExtra("requestId", 101);
 
         getActivity().startService(intent);
+    }
+
+    private void updateLastSyncedTime(){
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        long defaultValue = System.currentTimeMillis() - 1000 * 2 * 60;
+        editor.putLong("lastsyncedtime", defaultValue);
+        editor.commit();
+    }
+
+    private long readLastSyncedTime(){
+
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        long defaultValue = System.currentTimeMillis() - 1000 * 60*24 * 60;
+        return sharedPref.getLong("lastsyncedtime", defaultValue);
     }
 
     @Override
@@ -123,13 +154,22 @@ public class MainFragment extends Fragment implements DownloadResultReceiver.Rec
                 }
 
                 //mRecyclerView.setAdapter(new NewsAdapter(mDatabaseHandler.getAllNewsByCategory(1)));
-
+                this.updateLastSyncedTime();
                 break;
             case NewsUpdateService.STATUS_ERROR:
                 /* Handle the error */
                 String error = resultData.getString(Intent.EXTRA_TEXT);
                 Toast.makeText(this.getActivity(), error, Toast.LENGTH_LONG).show();
                 break;
+        }
+    }
+
+    class MyStartServiceReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //Intent dailyUpdater = new Intent(context, MyService.class);
+            //context.startService(dailyUpdater);
+            Log.d("AlarmReceiver", "Called context.startService from AlarmReceiver.onReceive");
         }
     }
 

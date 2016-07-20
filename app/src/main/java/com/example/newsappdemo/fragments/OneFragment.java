@@ -38,8 +38,9 @@ public class OneFragment extends Fragment implements DataChangeListener{
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                String url = "http://197.157.246.110:3000/show/" +  mDataset[position].getSid();
                 CustomBrowser browser = new CustomBrowser(getActivity());
-                browser.open("https://www.google.com");
+                browser.open(url);
             }
         }));
 

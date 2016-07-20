@@ -33,6 +33,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_IMAGE_URL = "image_url";
     private static final String KEY_TITLE = "title";
     private static final String KEY_NEWS_DETAILS = "url";
+    private static final String KEY_AUTHOR = "author";
 
     public DatabaseHandler(Context context)
     {
@@ -45,7 +46,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     {
         String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_NEWS + "("
                 + KEY_ID + " INTEGER PRIMARY KEY, " + KEY_SERVER_ID + " TEXT, " + KEY_CATEGORY_ID + " INTEGER," + KEY_IMAGE_URL + " TEXT,"
-                + KEY_TITLE + " TEXT," + KEY_NEWS_DETAILS + " TEXT" + ")";
+                + KEY_TITLE + " TEXT," + KEY_NEWS_DETAILS + " TEXT, " + KEY_AUTHOR + " TEXT" + ")";
         db.execSQL(CREATE_CONTACTS_TABLE);
     }
 
@@ -77,8 +78,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 String titleImageUrl = cursor.getString(3);
                 String title = cursor.getString(4);
                 String url = cursor.getString(5);
+                String author = cursor.getString(6);
 
-                NewsFeed newsFeed = new NewsFeed(sid, category, titleImageUrl, title, url);
+                NewsFeed newsFeed = new NewsFeed(sid, category, titleImageUrl, title, url, author);
                 newsFeedList.add(newsFeed);
                 count++;
             } while (cursor.moveToNext());
@@ -108,9 +110,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_IMAGE_URL, newsFeed.getTitleImage());
         values.put(KEY_TITLE, newsFeed.getTitle());
         values.put(KEY_NEWS_DETAILS, "");
+        values.put(KEY_AUTHOR, newsFeed.getAuthor());
         // Inserting Row
         db.insert(TABLE_NEWS, null, values);
         db.close(); // Closing database connection
     }
-
 }

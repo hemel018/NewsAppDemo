@@ -48,7 +48,7 @@ public class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap>
                     imageView.setImageBitmap(bitmap);
                 }
                 else {
-                    Drawable placeholder = imageView.getContext().getResources().getDrawable(R.drawable.news_avatar);
+                    Drawable placeholder = imageView.getContext().getResources().getDrawable(R.drawable.news);
                     imageView.setImageDrawable(placeholder);
                 }
             }

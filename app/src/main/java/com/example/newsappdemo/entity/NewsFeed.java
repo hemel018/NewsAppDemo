@@ -13,14 +13,16 @@ public class NewsFeed implements Parcelable
     private String mAritcleImage;
     private String mTitle;
     private String mArticleDetails;
+    private String mAuthor;
 
-    public NewsFeed(String sid, int category, String articleImage, String title, String articleDetails)
+    public NewsFeed(String sid, int category, String articleImage, String title, String articleDetails, String author)
     {
         this.mSid = sid;
         this.mCategoryId = category;
         this.mAritcleImage = articleImage;
         this.mTitle = title;
         this.mArticleDetails = articleDetails;
+        this.mAuthor =  author;
     }
 
 
@@ -30,6 +32,7 @@ public class NewsFeed implements Parcelable
         mAritcleImage = in.readString();
         mTitle = in.readString();
         mArticleDetails = in.readString();
+        mAuthor = in.readString();
     }
 
     @Override
@@ -40,6 +43,7 @@ public class NewsFeed implements Parcelable
         dest.writeString(mAritcleImage);
         dest.writeString(mTitle);
         dest.writeString(mArticleDetails);
+        dest.writeString(mAuthor);
     }
 
     @Override
@@ -78,4 +82,6 @@ public class NewsFeed implements Parcelable
     public String getSid() {
         return mSid;
     }
+
+    public String getAuthor(){return mAuthor;}
 }

@@ -44,7 +44,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.mTextViewTitle.setText(mDataset[position].getTitle());
-        holder.mTextViewAuthor.setText("Published by--");
+        holder.mTextViewAuthor.setText("Published by : "+mDataset[position].getAuthor());
         new ImageDownloaderTask(holder.mImageView).execute(mDataset[position].getTitleImage());
     }
 
