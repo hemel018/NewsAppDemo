@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "com.example.newsappdemo"
+        applicationId "com.telesom.selfcare.newsappdemo"
         minSdkVersion 17
         targetSdkVersion 23
         versionCode 1
