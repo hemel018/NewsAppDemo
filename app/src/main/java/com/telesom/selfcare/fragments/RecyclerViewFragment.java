@@ -17,7 +17,7 @@ import com.telesom.selfcare.utils.CustomBrowser;
 import com.telesom.selfcare.utils.DividerItemDecoration;
 import com.telesom.selfcare.utils.RecyclerItemClickListener;
 
-public class TwoFragment extends Fragment implements DataChangeListener {
+public class RecyclerViewFragment extends Fragment implements DataChangeListener{
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -27,6 +27,7 @@ public class TwoFragment extends Fragment implements DataChangeListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+
         // Defines the xml file for the fragment
         View v =  inflater.inflate(R.layout.fragment_one,parent, false);
 
@@ -36,7 +37,6 @@ public class TwoFragment extends Fragment implements DataChangeListener {
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-
                 String url = "http://197.157.246.110:3000/articledetails/" +  mDataset[position].getSid();
                 CustomBrowser browser = new CustomBrowser(getActivity());
                 browser.open(url);
@@ -46,7 +46,7 @@ public class TwoFragment extends Fragment implements DataChangeListener {
 
         mDatabaseHandler = new DatabaseHandler(getActivity());
 
-        mDataset = mDatabaseHandler.getAllNewsByCategory(2);
+        mDataset = mDatabaseHandler.getAllNewsByCategory(1);
 
 
         mLayoutManager = new LinearLayoutManager(getActivity());
@@ -58,16 +58,14 @@ public class TwoFragment extends Fragment implements DataChangeListener {
         mRecyclerView.setAdapter(mAdapter);
 
         return v;
-
     }
 
     // This event is triggered soon after onCreateView().
     // Any view setup should occur here.  E.g., view lookups and attaching view listeners.
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        // Setup any handles to view objects here
-        // EditText etFoo = (EditText) view.findViewById(R.id.etFoo);
     }
+
 
     @Override
     public void noitifyDataChangeListener(NewsAdapter adapter) {
